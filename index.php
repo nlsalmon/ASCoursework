@@ -4,28 +4,25 @@
 <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
 
   <!-- Wrapper for slides -->
-  <div class="carousel-inner" role="listbox">
-    <?php $recentFilms = $db->query("SELECT * FROM film ORDER BY theatricalRelease DESC LIMIT 5");
 
-              			$count = 1;
-              		
-              			
-              	    while ($recentFilm = $recentFilms->fetch_object()){
-              		$data = file_get_contents("http://api.rottentomatoes.com/api/public/v1.0/movies/".$latestFilm->rt_id.".json?apikey=q3qkubq8mzhrh8zq9z2xw94e");
-        			$data = json_decode($data);
-        			
-        			if ($count == 1) {
-        			echo '<div class="item active">';
-        			} else {
-        			echo '<div class="item">';
-        			}
-        			echo '<div class="carousel-caption">';
-        			echo $recentFilm->name;
-        			echo '</div>';
-        			echo '</div>';
-        			$count++;
-              		}
+    <?php 
+           $recentFilms = $db->query("SELECT * FROM film ORDER BY theatricalRelease DESC LIMIT 5");
+    ?>
+ 
+    <?php
+        if($recentFilms->num_rows > 0) {
+          while($films = $recentFilms -> fetch_assoc()){
+            $id[] = $films['id'];
+            $filmName[] = $films['name'];
+          }
+        }
       ?>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner" role="listbox">
+          <div class="item active">
+              <?php echo '<img src"http://comp2203.ecs.soton.ac.uk/coursework/1415/assets/posters/" .$id[0]. "_medium.jpg">' ?>;
+          </div>
+      </div>
   </div>
 
   <!-- Controls -->
